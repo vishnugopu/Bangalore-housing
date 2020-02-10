@@ -21,10 +21,6 @@ def get_estimated_price(location, sft, bhk, bath):
     return round(__model.predict([x])[0], 2)
 
 
-def get_location_names():
-    return __locations
-
-
 def load_saved_artifacts():
     print("started loading saved artifacts...")
     global __data_columns
@@ -35,9 +31,13 @@ def load_saved_artifacts():
         __locations = __data_columns[3:]
 
     global __model
-    with open('./artifacts/blr_home_price_model.pickle', 'rb') as f:
-        __model = pickle.load(f)
+    if __model is None:
+        with open('./artifacts/blr_home_price_model.pickle', 'rb') as f:
+            __model = pickle.load(f)
     print("completed loading saved artifacts...")
+
+def get_location_names():
+    return __locations
 
 
 if __name__ == '__main__':
